@@ -7,14 +7,12 @@ const ACCENT = '#e8722a';
 
 // SVG template for icon with "6/45" text
 function createIconSvg(size) {
-  const fontSize = Math.round(size * 0.32);
-  const ballR = Math.round(size * 0.33);
+  const fontSize = Math.round(size * 0.35);
   const cx = Math.round(size / 2);
   const cy = Math.round(size / 2);
 
   return `<svg width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg">
-    <rect width="${size}" height="${size}" fill="${BG_COLOR}" rx="${Math.round(size * 0.18)}"/>
-    <circle cx="${cx}" cy="${cy}" r="${ballR}" fill="${ACCENT}"/>
+    <rect width="${size}" height="${size}" fill="${ACCENT}" rx="${Math.round(size * 0.18)}"/>
     <text x="${cx}" y="${cy}" text-anchor="middle" dominant-baseline="central"
       font-family="Arial,Helvetica,sans-serif" font-weight="900" font-size="${fontSize}" fill="#ffffff">
       6/45
@@ -24,13 +22,11 @@ function createIconSvg(size) {
 
 // Foreground SVG for adaptive icon (transparent bg, just the content)
 function createForegroundSvg(size) {
-  const fontSize = Math.round(size * 0.25);
-  const ballR = Math.round(size * 0.27);
+  const fontSize = Math.round(size * 0.28);
   const cx = Math.round(size / 2);
   const cy = Math.round(size / 2);
 
   return `<svg width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="${cx}" cy="${cy}" r="${ballR}" fill="${ACCENT}"/>
     <text x="${cx}" y="${cy}" text-anchor="middle" dominant-baseline="central"
       font-family="Arial,Helvetica,sans-serif" font-weight="900" font-size="${fontSize}" fill="#ffffff">
       6/45
@@ -82,7 +78,7 @@ async function generate() {
 
   // Android adaptive icon - background (1024x1024 solid color)
   await sharp({
-    create: { width: 1024, height: 1024, channels: 4, background: BG_COLOR }
+    create: { width: 1024, height: 1024, channels: 4, background: ACCENT }
   })
     .png()
     .toFile(path.join(ASSETS, 'android-icon-background.png'));
