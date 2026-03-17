@@ -1,0 +1,15 @@
+export const colors = {
+  bgPrimary: '#111a24',
+  bgCard: '#182430',
+  bgCardInner: '#1c2b3a',
+  borderCard: '#263545',
+  textPrimary: '#d4dce6',
+  textSecondary: '#8899aa',
+  textMuted: '#5e7080',
+  accent: '#e8722a',
+  accentHover: '#d0621f',
+  accentSoft: 'rgba(232,114,42,0.15)',
+  cold: '#4a8cc8',
+  jackpotGold: '#f5c842',
+  white: '#ffffff',
+};
