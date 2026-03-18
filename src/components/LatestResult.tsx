@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Animated } from 'react-native';
 import { colors } from '../theme';
 
 const DAY_NAMES = ['Chủ nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7'];
@@ -54,6 +54,24 @@ export default function LatestResult({
   jackpot,
   jackpotWinners,
 }: LatestResultProps) {
+  // Blinking animation for winner text
+  const blinkAnim = useRef(new Animated.Value(1)).current;
+  useEffect(() => {
+    const winners = parseInt(jackpotWinners || '0', 10);
+    if (winners > 0) {
+      const loop = Animated.loop(
+        Animated.sequence([
+          Animated.timing(blinkAnim, { toValue: 0.2, duration: 500, useNativeDriver: true }),
+          Animated.timing(blinkAnim, { toValue: 1, duration: 500, useNativeDriver: true }),
+        ])
+      );
+      loop.start();
+      return () => loop.stop();
+    } else {
+      blinkAnim.setValue(1);
+    }
+  }, [jackpotWinners]);
+
   // Cache nextDrawTime to avoid recalculating 7 Date objects every second
   const cachedTarget = useRef(getNextDrawTime());
   const [nextDrawDate, setNextDrawDate] = useState(formatDatePart(cachedTarget.current));
@@ -121,12 +139,15 @@ export default function LatestResult({
           <View style={styles.jackpotContainer}>
             <Text style={styles.jackpotLabel}>GIÁ TRỊ JACKPOT</Text>
             <Text style={styles.jackpotValue}>{jackpot} VNĐ</Text>
-            <Text style={styles.jackpotLabel}>
-              Số lượng giải:{' '}
-              <Text style={styles.jackpotWinners}>
-                {jackpotWinners || '0'}
+            {parseInt(jackpotWinners || '0', 10) > 0 ? (
+              <Animated.Text style={[styles.winnerAlert, { opacity: blinkAnim }]}>
+                🎉 Hôm nay có {jackpotWinners} người trúng thưởng!
+              </Animated.Text>
+            ) : (
+              <Text style={styles.jackpotLabel}>
+                Số lượng giải: <Text style={styles.jackpotWinners}>0</Text>
               </Text>
-            </Text>
+            )}
           </View>
         )}
         <View style={styles.nextDrawContainer}>
@@ -239,6 +260,13 @@ const styles = StyleSheet.create({
   jackpotWinners: {
     color: colors.textPrimary,
     fontWeight: '700',
+  },
+  winnerAlert: {
+    fontSize: 13,
+    color: '#ff3b30',
+    fontWeight: '800',
+    marginTop: 4,
+    textAlign: 'center',
   },
   nextDrawContainer: {
     alignItems: 'center',

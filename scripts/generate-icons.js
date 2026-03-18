@@ -7,7 +7,7 @@ const ACCENT = '#e8722a';
 
 // SVG template for icon with "6/45" text
 function createIconSvg(size) {
-  const fontSize = Math.round(size * 0.35);
+  const fontSize = Math.round(size * 0.33);
   const cx = Math.round(size / 2);
   const cy = Math.round(size / 2);
 
@@ -22,7 +22,7 @@ function createIconSvg(size) {
 
 // Foreground SVG for adaptive icon (transparent bg, just the content)
 function createForegroundSvg(size) {
-  const fontSize = Math.round(size * 0.28);
+  const fontSize = Math.round(size * 0.26);
   const cx = Math.round(size / 2);
   const cy = Math.round(size / 2);
 
