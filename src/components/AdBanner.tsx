@@ -4,7 +4,7 @@ import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads'
 import { colors } from '../theme';
 import { usePremium } from '../context/PremiumContext';
 
-const BANNER_AD_ID = __DEV__ ? TestIds.BANNER : 'ca-app-pub-xxxxxxxxxxxxxxxx/yyyyyyyyyyyyyy';
+const BANNER_AD_ID = __DEV__ ? TestIds.BANNER : 'ca-app-pub-5240031366086683/5898684425';
 
 interface AdBannerProps {
   placement?: 'bottom' | 'inline';

@@ -1,8 +1,9 @@
 import { InterstitialAd, AdEventType, TestIds } from 'react-native-google-mobile-ads';
 
+// TODO: Tạo interstitial ad unit trên AdMob Console, tạm dùng banner ID
 const AD_UNIT_ID = __DEV__
   ? TestIds.INTERSTITIAL
-  : 'ca-app-pub-xxxxxxxxxxxxxxxx/zzzzzzzzzzzzzz';
+  : 'ca-app-pub-5240031366086683/5898684425';
 
 let interstitial: ReturnType<typeof InterstitialAd.createForAdRequest> | null = null;
 let isLoaded = false;
