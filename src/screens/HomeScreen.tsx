@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -49,6 +49,8 @@ export default function HomeScreen() {
   const [suggestedSets, setSuggestedSets] = useState<SuggestedSet[]>([]);
   // Absent data - independent from period filter (always 156 draws / 1 year)
   const [absentData, setAbsentData] = useState<NumberStats[]>([]);
+  // Guard against race condition when switching periods rapidly
+  const loadStatsIdRef = useRef(0);
 
   // Initialize DB and load data
   useEffect(() => {
@@ -87,7 +89,6 @@ export default function HomeScreen() {
 
   const loadAbsent = async () => {
     // Luôn lấy từ 156 kỳ gần nhất (~1 năm), không phụ thuộc period
-    const draws = await getDrawsByPeriod('6m');
     const allAbsent = await getLongestAbsent(45);
     // Build NumberStats from absent data for AbsentNumbers component
     const absentStats: NumberStats[] = allAbsent.map((item) => ({
@@ -107,7 +108,10 @@ export default function HomeScreen() {
   };
 
   const loadStats = async (p: string) => {
+    const id = ++loadStatsIdRef.current;
     const draws = await getDrawsByPeriod(p);
+    // Discard result if a newer request was fired (race condition guard)
+    if (id !== loadStatsIdRef.current) return;
     const stats = calculateStats(draws);
     setStatsData(stats);
     setStatsTotalDraws(draws.length);
@@ -143,7 +147,15 @@ export default function HomeScreen() {
         [{ text: 'OK' }]
       );
     } catch (e: any) {
-      Alert.alert('Lỗi', e.message || 'Không thể tải dữ liệu');
+      const msg = e.message || 'Không thể tải dữ liệu';
+      // Phân biệt lỗi mạng vs lỗi parse (scraper bị broken)
+      const isParseError = msg.includes('Could not extract') || msg.includes('API error');
+      Alert.alert(
+        isParseError ? 'Lỗi cấu trúc dữ liệu' : 'Lỗi kết nối',
+        isParseError
+          ? 'Website Vietlott có thể đã thay đổi cấu trúc. Vui lòng cập nhật app.'
+          : msg,
+      );
     } finally {
       setLoading(false);
     }

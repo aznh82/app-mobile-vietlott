@@ -22,7 +22,9 @@ export async function initDB(): Promise<void> {
       n4 INTEGER NOT NULL,
       n5 INTEGER NOT NULL,
       n6 INTEGER NOT NULL
-    )
+    );
+    CREATE INDEX IF NOT EXISTS idx_draw_date ON draws(draw_date);
+    CREATE INDEX IF NOT EXISTS idx_draw_number ON draws(draw_number);
   `);
 }
 
@@ -144,7 +146,8 @@ export async function getLongestAbsent(
 
 export async function cleanupOldData(): Promise<number> {
   const database = await getDatabase();
-  const cutoff = new Date(Date.now() - 365 * 24 * 60 * 60 * 1000)
+  // Giữ 400 ngày thay vì 365 để buffer cho absent data (156 kỳ)
+  const cutoff = new Date(Date.now() - 400 * 24 * 60 * 60 * 1000)
     .toISOString()
     .split('T')[0];
   const result = await database.runAsync(

@@ -18,7 +18,12 @@
       "WebFetch(domain:job-logs.eascdn.net)",
       "Bash(gh auth:*)",
       "Bash(where gh:*)",
-      "Bash(node scripts/generate-icons.js)"
+      "Bash(node scripts/generate-icons.js)",
+      "Bash(claude plugin:*)",
+      "Bash(claude skill:*)",
+      "Bash(unset CLAUDECODE)",
+      "Bash(gh pr:*)",
+      "Bash(cmd /c \"where gh\")"
     ]
   }
 }

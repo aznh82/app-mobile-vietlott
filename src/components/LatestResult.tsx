@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { colors } from '../theme';
 
@@ -10,11 +10,10 @@ const DRAW_HOUR = 18;
 function getNextDrawTime(): Date {
   const now = new Date();
   const d = new Date(now);
-  // Check up to 7 days ahead
   for (let i = 0; i < 7; i++) {
     d.setDate(now.getDate() + i);
     if (DRAW_DAYS.includes(d.getDay())) {
-      if (i === 0 && now.getHours() >= DRAW_HOUR) continue; // already passed today
+      if (i === 0 && now.getHours() >= DRAW_HOUR) continue;
       d.setHours(DRAW_HOUR, 0, 0, 0);
       return d;
     }
@@ -55,14 +54,20 @@ export default function LatestResult({
   jackpot,
   jackpotWinners,
 }: LatestResultProps) {
-  const [nextDrawDate, setNextDrawDate] = useState(formatDatePart(getNextDrawTime()));
-  const [countdown, setCountdown] = useState(formatCountdown(getNextDrawTime()));
+  // Cache nextDrawTime to avoid recalculating 7 Date objects every second
+  const cachedTarget = useRef(getNextDrawTime());
+  const [nextDrawDate, setNextDrawDate] = useState(formatDatePart(cachedTarget.current));
+  const [countdown, setCountdown] = useState(formatCountdown(cachedTarget.current));
 
   useEffect(() => {
     const timer = setInterval(() => {
-      const target = getNextDrawTime();
-      setNextDrawDate(formatDatePart(target));
-      setCountdown(formatCountdown(target));
+      const now = new Date();
+      // Only recalculate nextDrawTime when countdown reaches 0
+      if (now.getTime() >= cachedTarget.current.getTime()) {
+        cachedTarget.current = getNextDrawTime();
+        setNextDrawDate(formatDatePart(cachedTarget.current));
+      }
+      setCountdown(formatCountdown(cachedTarget.current));
     }, 1000);
     return () => clearInterval(timer);
   }, []);
