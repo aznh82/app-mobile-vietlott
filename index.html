@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chính Sách Quyền Riêng Tư – Vietlott 6/45</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange:   #e8722a;
+      --dark:     #111a24;
+      --navy:     #1a2635;
+      --text:     #e8eaf0;
+      --muted:    #9aa3b2;
+      --border:   rgba(255,255,255,0.08);
+      --card-bg:  rgba(255,255,255,0.04);
+    }
+
+    body {
+      background: var(--dark);
+      color: var(--text);
+      font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.75;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      background: linear-gradient(135deg, var(--orange) 0%, #b84e12 50%, var(--dark) 100%);
+      padding: 60px 24px 48px;
+      text-align: center;
+    }
+    header .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 20px;
+      padding: 4px 16px;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #ffe0c8;
+      margin-bottom: 16px;
+    }
+    header h1 {
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 900;
+      letter-spacing: -1px;
+      color: #fff;
+    }
+    header h1 span { color: #ffe0c8; }
+    header p {
+      margin-top: 12px;
+      color: rgba(255,255,255,0.7);
+      font-size: 14px;
+    }
+
+    /* ── Layout ── */
+    main {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    /* ── Info bar ── */
+    .info-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 40px;
+    }
+    .info-bar .item {
+      flex: 1 1 180px;
+    }
+    .info-bar .label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .info-bar .value {
+      font-size: 14px;
+      color: var(--text);
+      font-weight: 600;
+    }
+    .info-bar .value a {
+      color: var(--orange);
+      text-decoration: none;
+    }
+    .info-bar .value a:hover { text-decoration: underline; }
+
+    /* ── Sections ── */
+    section {
+      margin-bottom: 40px;
+    }
+    section h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--orange);
+      border-left: 4px solid var(--orange);
+      padding-left: 14px;
+      margin-bottom: 16px;
+      line-height: 1.3;
+    }
+    section p {
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+    section p:last-child { margin-bottom: 0; }
+
+    /* ── Cards ── */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin-bottom: 14px;
+    }
+    .card h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .card p {
+      font-size: 14px;
+      color: var(--muted);
+      margin: 0;
+    }
+    .card a { color: var(--orange); text-decoration: none; }
+    .card a:hover { text-decoration: underline; }
+
+    /* ── Table ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      margin-top: 8px;
+    }
+    th {
+      text-align: left;
+      padding: 10px 14px;
+      background: rgba(255,255,255,0.06);
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-bottom: 1px solid var(--border);
+    }
+    td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      vertical-align: top;
+    }
+    tr:last-child td { border-bottom: none; }
+
+    /* ── Highlight box ── */
+    .highlight {
+      background: rgba(232, 114, 42, 0.12);
+      border: 1px solid rgba(232, 114, 42, 0.35);
+      border-radius: 10px;
+      padding: 18px 22px;
+      margin-top: 12px;
+    }
+    .highlight p {
+      color: #ffe0c8;
+      font-size: 14px;
+      margin: 0;
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--navy);
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 32px 24px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    footer a { color: var(--orange); text-decoration: none; }
+
+    @media (max-width: 480px) {
+      header { padding: 40px 16px 32px; }
+      main { padding: 32px 16px 60px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="badge">Chính sách quyền riêng tư</div>
+    <h1>Vietlott <span>6/45</span></h1>
+    <p>Thống kê &amp; Phân tích · Nhà phát triển: aznh82</p>
+  </header>
+
+  <main>
+
+    <!-- Info bar -->
+    <div class="info-bar">
+      <div class="item">
+        <div class="label">Tên ứng dụng</div>
+        <div class="value">Vietlott 6/45</div>
+      </div>
+      <div class="item">
+        <div class="label">Nhà phát triển</div>
+        <div class="value">aznh82</div>
+      </div>
+      <div class="item">
+        <div class="label">Liên hệ</div>
+        <div class="value"><a href="mailto:aznh82@gmail.com">aznh82@gmail.com</a></div>
+      </div>
+      <div class="item">
+        <div class="label">Cập nhật lần cuối</div>
+        <div class="value">18 tháng 3, 2026</div>
+      </div>
+    </div>
+
+    <!-- 1. Giới thiệu -->
+    <section>
+      <h2>1. Giới thiệu</h2>
+      <p>
+        Chính sách quyền riêng tư này mô tả cách ứng dụng <strong>Vietlott 6/45</strong>
+        (sau đây gọi là "Ứng dụng") xử lý thông tin của người dùng. Chúng tôi cam kết bảo vệ
+        quyền riêng tư của bạn và minh bạch về các hoạt động dữ liệu.
+      </p>
+      <p>
+        Khi cài đặt và sử dụng Ứng dụng, bạn đồng ý với các điều khoản được mô tả trong
+        chính sách này. Nếu bạn không đồng ý, vui lòng gỡ cài đặt Ứng dụng.
+      </p>
+    </section>
+
+    <!-- 2. Thông tin chúng tôi KHÔNG thu thập -->
+    <section>
+      <h2>2. Thông tin chúng tôi không thu thập</h2>
+      <p>Ứng dụng <strong>không</strong> thu thập bất kỳ thông tin cá nhân nào, bao gồm:</p>
+      <div class="card">
+        <h3>Không yêu cầu tài khoản</h3>
+        <p>Bạn không cần đăng ký, đăng nhập hay tạo tài khoản để sử dụng Ứng dụng.</p>
+      </div>
+      <div class="card">
+        <h3>Không thu thập thông tin định danh</h3>
+        <p>Ứng dụng không thu thập tên, địa chỉ email, số điện thoại, địa chỉ nhà, hay bất kỳ thông tin định danh cá nhân nào khác.</p>
+      </div>
+      <div class="card">
+        <h3>Không theo dõi vị trí</h3>
+        <p>Ứng dụng không truy cập hoặc theo dõi vị trí địa lý của thiết bị bạn.</p>
+      </div>
+      <div class="card">
+        <h3>Không truy cập danh bạ hay camera</h3>
+        <p>Ứng dụng không yêu cầu quyền truy cập danh bạ, máy ảnh, micro, hay bộ nhớ ngoài.</p>
+      </div>
+    </section>
+
+    <!-- 3. Dữ liệu được xử lý -->
+    <section>
+      <h2>3. Dữ liệu được xử lý trong Ứng dụng</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Loại dữ liệu</th>
+            <th>Mục đích</th>
+            <th>Lưu trữ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Kết quả xổ số Vietlott 6/45</td>
+            <td>Hiển thị kết quả, phân tích thống kê tần suất</td>
+            <td>Chỉ trên thiết bị (SQLite)</td>
+          </tr>
+          <tr>
+            <td>Dữ liệu quảng cáo (AdMob)</td>
+            <td>Phục vụ hiển thị quảng cáo trong phiên bản miễn phí</td>
+            <td>Xử lý bởi Google AdMob</td>
+          </tr>
+          <tr>
+            <td>Dữ liệu giao dịch mua hàng</td>
+            <td>Xác minh và kích hoạt gói Premium</td>
+            <td>Xử lý bởi Google Play Billing</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="highlight">
+        <p>
+          Toàn bộ dữ liệu thống kê xổ số được lưu trữ cục bộ trên thiết bị của bạn
+          trong cơ sở dữ liệu SQLite. Dữ liệu này là công khai và không chứa thông tin
+          cá nhân.
+        </p>
+      </div>
+    </section>
+
+    <!-- 4. Dịch vụ bên thứ ba -->
+    <section>
+      <h2>4. Dịch vụ bên thứ ba</h2>
+      <p>Ứng dụng tích hợp các dịch vụ bên thứ ba sau:</p>
+
+      <div class="card">
+        <h3>Google AdMob</h3>
+        <p>
+          Ứng dụng sử dụng Google AdMob để hiển thị quảng cáo trong phiên bản miễn phí.
+          AdMob có thể thu thập dữ liệu thiết bị và thông tin sử dụng theo mục đích phục
+          vụ quảng cáo. Xem chính sách quyền riêng tư của Google tại:
+          <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">
+            policies.google.com/privacy
+          </a>
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Google Play Billing</h3>
+        <p>
+          Các giao dịch mua trong ứng dụng (nâng cấp Premium) được xử lý hoàn toàn bởi
+          Google Play Billing. Chúng tôi không tiếp cận hoặc lưu trữ thông tin thanh toán
+          hay thẻ tín dụng của bạn. Xem chính sách của Google Play tại:
+          <a href="https://play.google.com/about/play-terms/" target="_blank" rel="noopener">
+            play.google.com/about/play-terms
+          </a>
+        </p>
+      </div>
+    </section>
+
+    <!-- 5. Quyền của người dùng -->
+    <section>
+      <h2>5. Quyền của người dùng</h2>
+      <p>Bạn có các quyền sau liên quan đến dữ liệu của mình:</p>
+      <div class="card">
+        <h3>Xóa dữ liệu cục bộ</h3>
+        <p>Bạn có thể xóa toàn bộ dữ liệu Ứng dụng bằng cách gỡ cài đặt ứng dụng trên thiết bị.</p>
+      </div>
+      <div class="card">
+        <h3>Kiểm soát quảng cáo</h3>
+        <p>
+          Bạn có thể quản lý tùy chọn quảng cáo của Google trong phần Cài đặt &gt; Google &gt;
+          Quảng cáo trên thiết bị Android của mình, hoặc nâng cấp lên Premium để tắt hoàn toàn quảng cáo.
+        </p>
+      </div>
+      <div class="card">
+        <h3>Liên hệ</h3>
+        <p>
+          Mọi yêu cầu liên quan đến dữ liệu, vui lòng liên hệ:
+          <a href="mailto:aznh82@gmail.com">aznh82@gmail.com</a>
+        </p>
+      </div>
+    </section>
+
+    <!-- 6. Bảo mật -->
+    <section>
+      <h2>6. Bảo mật</h2>
+      <p>
+        Vì Ứng dụng không truyền tải thông tin cá nhân đến máy chủ của chúng tôi, rủi ro
+        rò rỉ dữ liệu cá nhân là không đáng kể. Dữ liệu thống kê được lưu cục bộ trên thiết bị
+        của bạn và được bảo vệ bởi các cơ chế bảo mật của hệ điều hành Android.
+      </p>
+    </section>
+
+    <!-- 7. Trẻ em -->
+    <section>
+      <h2>7. Quyền riêng tư của trẻ em</h2>
+      <p>
+        Ứng dụng không hướng đến người dùng dưới 18 tuổi. Xổ số và cờ bạc không phù hợp
+        với trẻ em. Chúng tôi không cố ý thu thập dữ liệu từ trẻ em.
+      </p>
+    </section>
+
+    <!-- 8. Thay đổi chính sách -->
+    <section>
+      <h2>8. Thay đổi chính sách quyền riêng tư</h2>
+      <p>
+        Chúng tôi có thể cập nhật chính sách này theo thời gian. Khi có thay đổi quan trọng,
+        chúng tôi sẽ thông báo qua mô tả cập nhật trên Google Play Store. Việc tiếp tục sử dụng
+        Ứng dụng sau khi chính sách được cập nhật đồng nghĩa với việc bạn chấp nhận các thay đổi đó.
+      </p>
+    </section>
+
+    <!-- 9. Liên hệ -->
+    <section>
+      <h2>9. Liên hệ</h2>
+      <p>Nếu bạn có câu hỏi hoặc góp ý về chính sách quyền riêng tư này, vui lòng liên hệ:</p>
+      <div class="card">
+        <h3>aznh82</h3>
+        <p>Email: <a href="mailto:aznh82@gmail.com">aznh82@gmail.com</a></p>
+        <p>Google Play: Trang nhà phát triển Vietlott 6/45</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>
+      &copy; 2026 aznh82 · Vietlott 6/45 ·
+      <a href="mailto:aznh82@gmail.com">aznh82@gmail.com</a>
+    </p>
+    <p style="margin-top:8px; font-size:12px;">
+      Ứng dụng chỉ mang tính tham khảo thống kê, không đảm bảo trúng thưởng.
+    </p>
+  </footer>
+
+</body>
+</html>
