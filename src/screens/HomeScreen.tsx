@@ -26,6 +26,8 @@ import FrequencyChart from '../components/FrequencyChart';
 import AbsentNumbers from '../components/AbsentNumbers';
 import SuggestedSets from '../components/SuggestedSets';
 import AdBanner from '../components/AdBanner';
+import PremiumBadge from '../components/PremiumBadge';
+import PremiumPaywall from '../components/PremiumPaywall';
 
 const START_DRAW = '01328';
 
@@ -53,6 +55,8 @@ export default function HomeScreen() {
   const [absentData, setAbsentData] = useState<NumberStats[]>([]);
   // Guard against race condition when switching periods rapidly
   const loadStatsIdRef = useRef(0);
+  // Premium paywall
+  const [showPaywall, setShowPaywall] = useState(false);
 
   // Initialize DB and load data
   useEffect(() => {
@@ -195,6 +199,13 @@ export default function HomeScreen() {
         latestDraw={latestDrawNum}
         loading={loading}
         onFetch={handleFetch}
+      >
+        <PremiumBadge onPress={() => setShowPaywall(true)} />
+      </Header>
+
+      <PremiumPaywall
+        visible={showPaywall}
+        onClose={() => setShowPaywall(false)}
       />
 
       <LatestResult

@@ -13,6 +13,7 @@ interface HeaderProps {
   latestDraw: string | null;
   loading: boolean;
   onFetch: () => void;
+  children?: React.ReactNode;
 }
 
 export default function Header({
@@ -20,12 +21,16 @@ export default function Header({
   latestDraw,
   loading,
   onFetch,
+  children,
 }: HeaderProps) {
   return (
     <View style={styles.container}>
-      <View>
-        <Text style={styles.title}>VIETLOTT 6/45</Text>
-        <Text style={styles.subtitle}>Thống kê & Dự đoán xác suất</Text>
+      <View style={styles.titleRow}>
+        <View>
+          <Text style={styles.title}>VIETLOTT 6/45</Text>
+          <Text style={styles.subtitle}>Thống kê & Dự đoán xác suất</Text>
+        </View>
+        {children}
       </View>
       <View style={styles.statsRow}>
         <View>
@@ -58,6 +63,11 @@ export default function Header({
 const styles = StyleSheet.create({
   container: {
     marginBottom: 16,
+  },
+  titleRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
   },
   title: {
     fontSize: 26,

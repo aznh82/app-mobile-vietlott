@@ -1,14 +1,17 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView, StyleSheet, Platform } from 'react-native';
+import { PremiumProvider } from './src/context/PremiumContext';
 import HomeScreen from './src/screens/HomeScreen';
 
 export default function App() {
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar style="light" />
-      <HomeScreen />
-    </SafeAreaView>
+    <PremiumProvider>
+      <SafeAreaView style={styles.container}>
+        <StatusBar style="light" />
+        <HomeScreen />
+      </SafeAreaView>
+    </PremiumProvider>
   );
 }
 
