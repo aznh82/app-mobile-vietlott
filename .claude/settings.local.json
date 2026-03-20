@@ -23,7 +23,8 @@
       "Bash(claude skill:*)",
       "Bash(unset CLAUDECODE)",
       "Bash(gh pr:*)",
-      "Bash(cmd /c \"where gh\")"
+      "Bash(cmd /c \"where gh\")",
+      "WebFetch(domain:developers.google.com)"
     ]
   }
 }

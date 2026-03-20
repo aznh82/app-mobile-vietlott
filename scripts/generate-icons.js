@@ -2,6 +2,7 @@ const sharp = require('sharp');
 const path = require('path');
 
 const ASSETS = path.join(__dirname, '..', 'assets');
+const STORE_ASSETS = path.join(__dirname, '..', 'store-assets');
 const BG_COLOR = '#111a24';
 const ACCENT = '#e8722a';
 
@@ -89,6 +90,13 @@ async function generate() {
     .png()
     .toFile(path.join(ASSETS, 'android-icon-monochrome.png'));
   console.log('android-icon-monochrome.png');
+
+  // Developer icon for Play Store (512x512, no transparency, PNG 24-bit)
+  await sharp(Buffer.from(createIconSvg(512)))
+    .flatten({ background: ACCENT })
+    .png()
+    .toFile(path.join(STORE_ASSETS, 'developer-icon-512.png'));
+  console.log('developer-icon-512.png');
 
   console.log('All icons generated!');
 }

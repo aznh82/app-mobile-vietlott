@@ -25,8 +25,7 @@
       "package": "org.vietlott.vietlott645",
       "permissions": [
         "INTERNET",
-        "ACCESS_NETWORK_STATE",
-        "com.android.vending.BILLING"
+        "ACCESS_NETWORK_STATE"
       ]
     },
     "web": {
@@ -39,8 +38,7 @@
         {
           "googleMobileAdsAppId": "ca-app-pub-5240031366086683~4032470389"
         }
-      ],
-      "react-native-iap"
+      ]
     ],
     "extra": {
       "eas": {
