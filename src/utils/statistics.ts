@@ -9,14 +9,14 @@ export interface NumberStats {
 export function calculateStats(draws: DrawRow[]): NumberStats[] {
   const counter: Record<number, number> = {};
   for (const draw of draws) {
-    for (const num of [draw.n1, draw.n2, draw.n3, draw.n4, draw.n5, draw.n6]) {
+    for (const num of draw.numbers) {
       counter[num] = (counter[num] || 0) + 1;
     }
   }
 
   const lastSeen: Record<number, number> = {};
   draws.forEach((draw, i) => {
-    for (const num of [draw.n1, draw.n2, draw.n3, draw.n4, draw.n5, draw.n6]) {
+    for (const num of draw.numbers) {
       if (!(num in lastSeen)) {
         lastSeen[num] = i;
       }
@@ -94,7 +94,7 @@ export function generateSuggestions(
 
   const counter: Record<number, number> = {};
   for (const draw of draws) {
-    for (const num of [draw.n1, draw.n2, draw.n3, draw.n4, draw.n5, draw.n6]) {
+    for (const num of draw.numbers) {
       counter[num] = (counter[num] || 0) + 1;
     }
   }

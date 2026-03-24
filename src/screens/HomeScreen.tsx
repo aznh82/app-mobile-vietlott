@@ -93,7 +93,7 @@ export default function HomeScreen() {
       }
 
       await initDB();
-      await cleanupOldData();
+      await cleanupOldData('mega645');
       await refreshCounts();
       await loadLatestResult();
       await loadAbsent();
@@ -112,16 +112,21 @@ export default function HomeScreen() {
   }, [isPremium, maxSuggestedSets]);
 
   const refreshCounts = async () => {
-    const total = await getTotalDraws();
-    const latest = await getLatestDraw();
+    const total = await getTotalDraws('mega645');
+    const latest = await getLatestDraw('mega645');
     setTotalDraws(total);
     setLatestDrawNum(latest);
   };
 
   const loadLatestResult = async () => {
-    const data = await getLatestDrawFull();
+    const data = await getLatestDrawFull('mega645');
     if (data) {
-      setLatestResult(data);
+      const nums = data.numbers.sort((a, b) => a - b);
+      setLatestResult({
+        draw_number: data.draw_number,
+        draw_date: data.draw_date,
+        numbers: nums.map((n) => String(n).padStart(2, '0')),
+      });
     }
     try {
       const info = await fetchJackpotInfo();
@@ -133,7 +138,7 @@ export default function HomeScreen() {
   };
 
   const loadAbsent = async () => {
-    const allAbsent = await getLongestAbsent(45);
+    const allAbsent = await getLongestAbsent('mega645', 45);
     const absentStats: NumberStats[] = allAbsent.map((item) => ({
       label: item.number,
       freq: 0,
@@ -143,8 +148,8 @@ export default function HomeScreen() {
   };
 
   const loadSuggestions = async () => {
-    const draws = await getDrawsByPeriod('30d');
-    const absent = await getLongestAbsent(10);
+    const draws = await getDrawsByPeriod('mega645', '30d');
+    const absent = await getLongestAbsent('mega645', 10);
     const sets = generateSuggestions(draws, absent, {
       count: maxSuggestedSets,
       advanced: isPremium,
@@ -154,7 +159,7 @@ export default function HomeScreen() {
 
   const loadStats = async (p: string) => {
     const id = ++loadStatsIdRef.current;
-    const draws = await getDrawsByPeriod(p);
+    const draws = await getDrawsByPeriod('mega645', p);
     if (id !== loadStatsIdRef.current) return;
     const stats = calculateStats(draws);
     setStatsData(stats);
@@ -170,7 +175,7 @@ export default function HomeScreen() {
     if (loading) return;
     setLoading(true);
     try {
-      const latest = await getLatestDraw();
+      const latest = await getLatestDraw('mega645');
       let results: [string, string, number[]][];
       if (latest) {
         results = await fetchNew(latest);
@@ -178,7 +183,7 @@ export default function HomeScreen() {
         results = await fetchAllFrom(START_DRAW);
       }
 
-      const inserted = results.length > 0 ? await saveDraws(results) : 0;
+      const inserted = results.length > 0 ? await saveDraws('mega645', results) : 0;
       await refreshCounts();
       await loadLatestResult();
       await loadAbsent();

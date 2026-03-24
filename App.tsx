@@ -1,17 +1,20 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, StyleSheet, Platform } from 'react-native';
+import { StyleSheet, Platform, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
 import { PremiumProvider } from './src/context/PremiumContext';
-import HomeScreen from './src/screens/HomeScreen';
+import AppNavigator from './src/navigation/AppNavigator';
 import { colors } from './src/theme';
 
 export default function App() {
   return (
     <PremiumProvider>
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         <StatusBar style="light" />
-        <HomeScreen />
-      </SafeAreaView>
+        <NavigationContainer>
+          <AppNavigator />
+        </NavigationContainer>
+      </View>
     </PremiumProvider>
   );
 }
