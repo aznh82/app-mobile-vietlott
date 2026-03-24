@@ -19,6 +19,8 @@ import {
 import { calculateStats, generateSuggestions } from '../utils/statistics';
 import type { NumberStats, SuggestedSet } from '../utils/statistics';
 import { usePremium } from '../context/PremiumContext';
+import { showInterstitialAd } from '../services/interstitialAd';
+import AdBanner from '../components/AdBanner';
 import PremiumPaywall from '../components/PremiumPaywall';
 import PeriodFilter from '../components/PeriodFilter';
 import FrequencyChart from '../components/FrequencyChart';
@@ -45,9 +47,16 @@ export default function GameStatsScreen() {
 
   const loadStatsIdRef = useRef(0);
 
+  const shownInterstitial = useRef(false);
+
   useEffect(() => {
     if (!isPremium) {
       setShowPaywall(true);
+      // Show interstitial on first stats view for free users
+      if (!shownInterstitial.current) {
+        shownInterstitial.current = true;
+        try { showInterstitialAd(); } catch { /* ads optional */ }
+      }
       return;
     }
     setShowPaywall(false);
@@ -152,6 +161,8 @@ export default function GameStatsScreen() {
           onUpgrade={openPaywall}
         />
       )}
+
+      {!isPremium && <AdBanner placement="bottom" />}
     </ScrollView>
   );
 }

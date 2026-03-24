@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import {
   View,
   Text,
@@ -23,6 +23,7 @@ import {
 } from '../database/database';
 import type { DrawRow } from '../database/database';
 import { fetchNew, fetchAllFrom } from '../services/scraper';
+import { showInterstitialAd } from '../services/interstitialAd';
 import { usePremium } from '../context/PremiumContext';
 import LatestResult from '../components/LatestResult';
 import Max3DResult from '../components/Max3DResult';
@@ -86,6 +87,7 @@ export default function GameDetailScreen() {
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [adReady] = useState(true);
+  const refreshCountRef = useRef(0);
 
   const activeConfig = GAME_CONFIGS[activeVariant];
 
@@ -118,12 +120,23 @@ export default function GameDetailScreen() {
         await saveDraws(activeVariant, results);
       }
       await loadData();
+      // Show interstitial every 3 refreshes for free users
+      if (!isPremium) {
+        refreshCountRef.current++;
+        if (refreshCountRef.current % 3 === 0) {
+          try { await showInterstitialAd(); } catch { /* ads optional */ }
+        }
+      }
     } catch (e: any) {
-      Alert.alert('Lỗi', e?.message || 'Không thể tải dữ liệu');
+      Alert.alert(
+        'Lỗi kết nối',
+        e?.message || 'Không thể tải dữ liệu',
+        [{ text: 'Thử lại', onPress: () => handleRefresh() }, { text: 'Đóng' }]
+      );
     } finally {
       setRefreshing(false);
     }
-  }, [activeVariant]);
+  }, [activeVariant, isPremium]);
 
   const handleFetch = async () => {
     if (loading) return;

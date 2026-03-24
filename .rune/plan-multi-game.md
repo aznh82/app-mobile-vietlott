@@ -16,8 +16,8 @@ with home dashboard. Deadline: 26/03/2026.
 ## Phases
 | # | Name | Status | Plan File | Timeline |
 |---|------|--------|-----------|----------|
-| 1 | Backend | ⬚ Pending | plan-multi-game-phase1.md | 24/03 evening (~4h) |
-| 2 | Frontend | ⬚ Pending | plan-multi-game-phase2.md | 25/03 full day (~6–8h) |
+| 1 | Backend | ✅ Done | plan-multi-game-phase1.md | 24/03 evening (~4h) |
+| 2 | Frontend | ✅ Done | plan-multi-game-phase2.md | 25/03 full day (~6–8h) |
 | 3 | Ship | ⬚ Pending | plan-multi-game-phase3.md | 26/03 morning (~3h) |
 
 ## Key Decisions
