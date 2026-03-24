@@ -5,6 +5,19 @@ const BASE_URL = 'https://www.vietlott.vn';
 const RENDER_INFO_URL = `${BASE_URL}/ajaxpro/Vietlott.Utility.WebEnvironments,Vietlott.Utility.ashx`;
 const MAX_PAGES = 100;
 
+interface RenderInfo {
+  SiteLang: string;
+  [key: string]: unknown;
+}
+
+interface VietlottResponse {
+  HtmlContent?: string;
+  Error?: boolean;
+  InfoMessage?: string;
+  RetExtraParam1?: string;
+  RetExtraParam2?: string;
+}
+
 function delay(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -32,7 +45,7 @@ async function getApiKey(config: GameConfig): Promise<string> {
   return match[1];
 }
 
-async function getRenderInfo(): Promise<any> {
+async function getRenderInfo(): Promise<RenderInfo> {
   const resp = await fetch(RENDER_INFO_URL, {
     method: 'POST',
     headers: {
@@ -56,9 +69,9 @@ function getEmptyNumbers(config: GameConfig): string[][] {
 async function fetchPage(
   config: GameConfig,
   key: string,
-  renderInfo: any,
+  renderInfo: RenderInfo,
   pageIndex: number
-): Promise<any> {
+): Promise<VietlottResponse> {
   const payload = {
     ORenderInfo: renderInfo,
     Key: key,
@@ -78,7 +91,7 @@ async function fetchPage(
   });
   if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
   const data = await resp.json();
-  const value = data.value || {};
+  const value: VietlottResponse = data.value || {};
   if (value.Error) throw new Error(`API error: ${value.InfoMessage}`);
   return value;
 }
@@ -151,7 +164,7 @@ function parseLotteryResults(
 }
 
 function parseMax3DResults(
-  responseValue: any
+  responseValue: VietlottResponse
 ): DrawTuple[] {
   const results: DrawTuple[] = [];
   const html = responseValue.HtmlContent || '';
@@ -201,7 +214,7 @@ function parseMax3DResults(
 
 function parseResults(
   gameId: GameId,
-  responseValue: any,
+  responseValue: VietlottResponse,
   config: GameConfig
 ): DrawTuple[] {
   if (gameId === 'max3d' || gameId === 'max3d_pro') {
@@ -224,7 +237,7 @@ export async function fetchAllFrom(
   let page = 0;
 
   while (page < MAX_PAGES) {
-    let value: any;
+    let value: VietlottResponse;
     try {
       value = await fetchPage(config, key, renderInfo, page);
     } catch (e) {
@@ -278,7 +291,7 @@ export async function fetchNew(
   let page = 0;
 
   while (page < MAX_PAGES) {
-    let value: any;
+    let value: VietlottResponse;
     try {
       value = await fetchPage(config, key, renderInfo, page);
     } catch (e) {

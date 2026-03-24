@@ -127,10 +127,10 @@ export default function GameDetailScreen() {
           try { await showInterstitialAd(); } catch { /* ads optional */ }
         }
       }
-    } catch (e: any) {
+    } catch (e: unknown) {
       Alert.alert(
         'Lỗi kết nối',
-        e?.message || 'Không thể tải dữ liệu',
+        (e as Error)?.message || 'Không thể tải dữ liệu',
         [{ text: 'Thử lại', onPress: () => handleRefresh() }, { text: 'Đóng' }]
       );
     } finally {
@@ -152,8 +152,8 @@ export default function GameDetailScreen() {
       const inserted = results.length > 0 ? await saveDraws(activeVariant, results) : 0;
       await loadData();
       Alert.alert('Hoàn thành', `Đã tải ${inserted} kỳ mới`);
-    } catch (e: any) {
-      Alert.alert('Lỗi', e?.message || 'Không thể tải dữ liệu');
+    } catch (e: unknown) {
+      Alert.alert('Lỗi', (e as Error)?.message || 'Không thể tải dữ liệu');
     } finally {
       setLoading(false);
     }

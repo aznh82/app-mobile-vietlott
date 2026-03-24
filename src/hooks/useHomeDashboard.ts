@@ -11,6 +11,7 @@ import type { DrawRow } from '../database/database';
 import { fetchAllGames } from '../services/scraper';
 import { preloadInterstitial, cleanupInterstitial } from '../services/interstitialAd';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let MobileAds: any;
 try {
   MobileAds = require('react-native-google-mobile-ads').MobileAds;
@@ -113,9 +114,9 @@ export default function useHomeDashboard() {
       Alert.alert('Đang tải', 'Đang tải dữ liệu cho tất cả trò chơi...');
       await fetchAllGames();
       await loadAllCards();
-    } catch (e: any) {
+    } catch (e: unknown) {
       console.warn('fetchAllGames failed:', e);
-      Alert.alert('Lỗi', e?.message || 'Không thể tải dữ liệu');
+      Alert.alert('Lỗi', (e as Error)?.message || 'Không thể tải dữ liệu');
     }
   };
 
@@ -124,9 +125,9 @@ export default function useHomeDashboard() {
     try {
       await fetchAllGames();
       await loadAllCards();
-    } catch (e: any) {
+    } catch (e: unknown) {
       console.warn('handleFetch failed:', e);
-      Alert.alert('Lỗi', e?.message || 'Không thể tải dữ liệu');
+      Alert.alert('Lỗi', (e as Error)?.message || 'Không thể tải dữ liệu');
     }
   };
 

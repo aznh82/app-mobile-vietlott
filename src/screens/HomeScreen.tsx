@@ -37,7 +37,7 @@ export default function HomeScreen() {
   const openPaywall = () => setShowPaywall(true);
 
   const handleCardPress = (gameId: GameId) => {
-    navigation.navigate(GAME_TAB_MAP[gameId] as any);
+    navigation.navigate(GAME_TAB_MAP[gameId] as keyof RootTabParamList);
   };
 
   return (

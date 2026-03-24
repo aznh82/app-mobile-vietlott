@@ -53,8 +53,8 @@ export async function initDB(): Promise<void> {
       await database.execAsync('DROP TABLE draws');
       console.warn(`Migration complete: ${oldRows.length} draws → draws_645`);
     }
-  } catch (e: any) {
-    console.warn('Migration check failed (non-fatal):', e?.message);
+  } catch (e: unknown) {
+    console.warn('Migration check failed (non-fatal):', (e as Error)?.message);
   }
 
   // Create all 5 game tables
@@ -114,8 +114,8 @@ export async function saveDraws(
         [drawNumber, drawDate, JSON.stringify(numbers), specialNum ?? null]
       );
       inserted++;
-    } catch (e: any) {
-      const msg = e?.message || '';
+    } catch (e: unknown) {
+      const msg = (e as Error)?.message || '';
       if (!msg.includes('UNIQUE') && !msg.includes('constraint')) {
         console.warn(`saveDraws(${gameId}) unexpected error:`, msg);
       }
