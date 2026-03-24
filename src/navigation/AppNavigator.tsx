@@ -1,19 +1,57 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { Text } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { colors } from '../theme';
-import { RootTabParamList } from '../types/navigation';
+import type { RootTabParamList, GameStackParamList } from '../types/navigation';
+import type { GameId } from '../types/game';
 import HomeScreen from '../screens/HomeScreen';
+import GameDetailScreen from '../screens/GameDetailScreen';
+import GameStatsScreen from '../screens/GameStatsScreen';
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
+const Stack = createNativeStackNavigator<GameStackParamList>();
 
-function PlaceholderScreen({ name }: { name: string }) {
+interface GameStackProps {
+  initialGameId: GameId;
+}
+
+function GameStack({ initialGameId }: GameStackProps) {
   return (
-    <View style={styles.placeholder}>
-      <Text style={styles.placeholderText}>{name}</Text>
-      <Text style={styles.placeholderSub}>Coming soon...</Text>
-    </View>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        contentStyle: { backgroundColor: colors.bgPrimary },
+      }}
+    >
+      <Stack.Screen
+        name="GameDetail"
+        component={GameDetailScreen}
+        initialParams={{ gameId: initialGameId }}
+      />
+      <Stack.Screen
+        name="GameStats"
+        component={GameStatsScreen}
+        initialParams={{ gameId: initialGameId }}
+      />
+    </Stack.Navigator>
   );
+}
+
+function Game645Stack() {
+  return <GameStack initialGameId="mega645" />;
+}
+
+function Game655Stack() {
+  return <GameStack initialGameId="power655" />;
+}
+
+function Game535Stack() {
+  return <GameStack initialGameId="lotto535" />;
+}
+
+function GameMax3DStack() {
+  return <GameStack initialGameId="max3d" />;
 }
 
 export default function AppNavigator() {
@@ -46,59 +84,36 @@ export default function AppNavigator() {
       />
       <Tab.Screen
         name="Game645"
+        component={Game645Stack}
         options={{
           tabBarLabel: '6/45',
           tabBarIcon: ({ color }) => <Text style={{ fontSize: 20, color }}>🎯</Text>,
         }}
-      >
-        {() => <PlaceholderScreen name="Mega 6/45" />}
-      </Tab.Screen>
+      />
       <Tab.Screen
         name="Game655"
+        component={Game655Stack}
         options={{
           tabBarLabel: '6/55',
           tabBarIcon: ({ color }) => <Text style={{ fontSize: 20, color }}>⚡</Text>,
         }}
-      >
-        {() => <PlaceholderScreen name="Power 6/55" />}
-      </Tab.Screen>
+      />
       <Tab.Screen
         name="Game535"
+        component={Game535Stack}
         options={{
           tabBarLabel: '5/35',
           tabBarIcon: ({ color }) => <Text style={{ fontSize: 20, color }}>🍀</Text>,
         }}
-      >
-        {() => <PlaceholderScreen name="Lotto 5/35" />}
-      </Tab.Screen>
+      />
       <Tab.Screen
         name="GameMax3D"
+        component={GameMax3DStack}
         options={{
           tabBarLabel: '3D',
           tabBarIcon: ({ color }) => <Text style={{ fontSize: 20, color }}>🎲</Text>,
         }}
-      >
-        {() => <PlaceholderScreen name="Max 3D / 3D Pro" />}
-      </Tab.Screen>
+      />
     </Tab.Navigator>
   );
 }
-
-const styles = StyleSheet.create({
-  placeholder: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: colors.bgPrimary,
-  },
-  placeholderText: {
-    color: colors.textPrimary,
-    fontSize: 24,
-    fontWeight: '700',
-  },
-  placeholderSub: {
-    color: colors.textMuted,
-    fontSize: 14,
-    marginTop: 8,
-  },
-});

@@ -43,6 +43,7 @@ interface LatestResultProps {
   drawNumber: string | null;
   drawDate: string | null;
   numbers: string[];
+  specialNumber?: string;
   jackpot: string | null;
   jackpotWinners: string | null;
 }
@@ -51,6 +52,7 @@ export default function LatestResult({
   drawNumber,
   drawDate,
   numbers,
+  specialNumber,
   jackpot,
   jackpotWinners,
 }: LatestResultProps) {
@@ -134,6 +136,12 @@ export default function LatestResult({
               <Text style={styles.ballText}>{n}</Text>
             </View>
           ))}
+          {specialNumber !== undefined && (
+            <View style={[styles.ball, styles.ballSpecial]}>
+              <Text style={styles.ballText}>{specialNumber}</Text>
+              <Text style={styles.sdbLabel}>SĐB</Text>
+            </View>
+          )}
         </View>
         {jackpot && (
           <View style={styles.jackpotContainer}>
@@ -241,6 +249,21 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: '700',
     fontSize: 14,
+  },
+  ballSpecial: {
+    backgroundColor: colors.cold,
+    shadowColor: colors.cold,
+    height: 46,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 2,
+  },
+  sdbLabel: {
+    color: '#fff',
+    fontSize: 8,
+    fontWeight: '700',
+    letterSpacing: 0.3,
+    marginTop: -2,
   },
   jackpotContainer: {
     alignItems: 'center',

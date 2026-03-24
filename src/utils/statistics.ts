@@ -1,4 +1,6 @@
-import { DrawRow } from '../database/database';
+import type { DrawRow } from '../database/database';
+import { GAME_CONFIGS } from '../types/game';
+import type { GameId } from '../types/game';
 
 export interface NumberStats {
   label: string;
@@ -6,7 +8,8 @@ export interface NumberStats {
   absent: number;
 }
 
-export function calculateStats(draws: DrawRow[]): NumberStats[] {
+export function calculateStats(draws: DrawRow[], gameId: GameId = 'mega645'): NumberStats[] {
+  const config = GAME_CONFIGS[gameId];
   const counter: Record<number, number> = {};
   for (const draw of draws) {
     for (const num of draw.numbers) {
@@ -24,10 +27,11 @@ export function calculateStats(draws: DrawRow[]): NumberStats[] {
   });
 
   const total = draws.length;
+  const padLen = config.maxNumber >= 100 ? 3 : 2;
   const result: NumberStats[] = [];
-  for (let n = 1; n <= 45; n++) {
+  for (let n = config.minNumber; n <= config.maxNumber; n++) {
     result.push({
-      label: String(n).padStart(2, '0'),
+      label: String(n).padStart(padLen, '0'),
       freq: counter[n] || 0,
       absent: n in lastSeen ? lastSeen[n] : total,
     });
@@ -80,6 +84,7 @@ function weightedPick(
 interface SuggestionOptions {
   count?: number;
   advanced?: boolean;
+  gameId?: GameId;
 }
 
 export function generateSuggestions(
@@ -87,6 +92,17 @@ export function generateSuggestions(
   absentData: { number: string; absent_draws: number }[],
   options?: SuggestionOptions
 ): SuggestedSet[] {
+  const resolvedGameId: GameId = options?.gameId ?? 'mega645';
+
+  // Max 3D games do not support suggestions
+  if (resolvedGameId === 'max3d' || resolvedGameId === 'max3d_pro') {
+    return [];
+  }
+
+  const config = GAME_CONFIGS[resolvedGameId];
+  const pickCount = config.numberCount;
+  const maxNum = config.maxNumber;
+
   const count = options?.count ?? 5;
   const advanced = options?.advanced ?? false;
 
@@ -99,14 +115,14 @@ export function generateSuggestions(
     }
   }
 
-  const sortedNums = Array.from({ length: 45 }, (_, i) => i + 1).sort(
+  const sortedNums = Array.from({ length: maxNum }, (_, i) => i + 1).sort(
     (a, b) => (counter[b] || 0) - (counter[a] || 0)
   );
 
   const absentNums = absentData.map((item) => parseInt(item.number, 10));
 
   if (!advanced) {
-    // === FREE TIER: thuật toán cơ bản (5 hot + 1 random/cold) ===
+    // === FREE TIER: basic algorithm ===
     const top10 = sortedNums.slice(0, 10);
     const rest = sortedNums.slice(10);
     const sets: SuggestedSet[] = [];
@@ -115,7 +131,7 @@ export function generateSuggestions(
       const hotPicks = weightedPick(
         top10,
         top10.map((n) => (counter[n] || 0) + 1),
-        5
+        pickCount - 1
       );
 
       let coldPick: number;
@@ -129,7 +145,7 @@ export function generateSuggestions(
       }
 
       const numbers = [...hotPicks, coldPick].sort((a, b) => a - b);
-      if (numbers.length === 6) {
+      if (numbers.length === pickCount) {
         sets.push({
           numbers: numbers.map((n) => String(n).padStart(2, '0')),
           cold: String(coldPick).padStart(2, '0'),
@@ -139,10 +155,10 @@ export function generateSuggestions(
     return sets;
   }
 
-  // === PREMIUM TIER: thuật toán nâng cao (nhiều chiến lược) ===
-  const top15 = sortedNums.slice(0, 15);  // Pool rộng hơn
-  const warm = sortedNums.slice(10, 25);   // Số trung bình
-  const coldPool = sortedNums.slice(25);   // Số ít xuất hiện
+  // === PREMIUM TIER: advanced algorithm (multiple strategies) ===
+  const top15 = sortedNums.slice(0, 15);
+  const warm = sortedNums.slice(10, 25);
+  const coldPool = sortedNums.slice(25);
   const sets: SuggestedSet[] = [];
 
   for (let i = 0; i < count; i++) {
@@ -170,7 +186,6 @@ export function generateSuggestions(
 
     // Cold picks
     for (let c = 0; c < strategy.coldCount; c++) {
-      // Ưu tiên từ absent list
       if (absentNums.length > 0) {
         const candidates = absentNums.filter((n) => !allPicks.includes(n));
         if (candidates.length > 0) {
@@ -184,8 +199,8 @@ export function generateSuggestions(
       }
     }
 
-    if (allPicks.length < 6) continue; // skip incomplete sets from sparse data
-    const coldNum = allPicks[allPicks.length - 1]; // last added = cold pick
+    if (allPicks.length < pickCount) continue;
+    const coldNum = allPicks[allPicks.length - 1];
     const numbers = [...allPicks].sort((a, b) => a - b);
 
     sets.push({
