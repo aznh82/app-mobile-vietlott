@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 1200px;
+    height: 630px;
+    overflow: hidden;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .container {
+    width: 1200px;
+    height: 630px;
+    background: linear-gradient(145deg, #111a24 0%, #182430 60%, #0d1520 100%);
+    display: flex;
+    align-items: center;
+    padding: 0 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .circle {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.06;
+  }
+  .c1 { width: 500px; height: 500px; background: #e8722a; top: -150px; right: -100px; }
+  .c2 { width: 350px; height: 350px; background: #4a8cc8; bottom: -100px; left: -80px; }
+
+  .left {
+    flex: 1;
+    z-index: 10;
+  }
+
+  .badge {
+    display: inline-block;
+    background: rgba(232, 114, 42, 0.15);
+    border: 1px solid rgba(232, 114, 42, 0.3);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #e8722a;
+    margin-bottom: 20px;
+  }
+
+  .title {
+    font-size: 56px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  .title span { color: #e8722a; }
+
+  .desc {
+    font-size: 20px;
+    color: #8899aa;
+    line-height: 1.5;
+    max-width: 500px;
+    margin-bottom: 28px;
+  }
+
+  .games {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .game {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 10px;
+    padding: 8px 16px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #d4dce6;
+  }
+
+  .right {
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .stat-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 16px 24px;
+    text-align: center;
+    width: 200px;
+  }
+
+  .stat-icon { font-size: 28px; margin-bottom: 6px; }
+  .stat-label { font-size: 13px; color: #8899aa; }
+  .stat-value { font-size: 22px; font-weight: 800; color: #ffffff; }
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="circle c1"></div>
+    <div class="circle c2"></div>
+
+    <div class="left">
+      <div class="badge">v2.0 — 5 trò chơi</div>
+      <div class="title">VIET<span>LOTT</span></div>
+      <div class="desc">Kết quả xổ số, thống kê tần suất, gợi ý bộ số thông minh.</div>
+      <div class="games">
+        <div class="game">🎯 6/45</div>
+        <div class="game">⚡ 6/55</div>
+        <div class="game">🍀 5/35</div>
+        <div class="game">🎲 Max 3D</div>
+        <div class="game">🎰 3D Pro</div>
+      </div>
+    </div>
+
+    <div class="right">
+      <div class="stat-card">
+        <div class="stat-icon">📊</div>
+        <div class="stat-value">Thống kê</div>
+        <div class="stat-label">Tần suất & Vắng mặt</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🤖</div>
+        <div class="stat-value">AI Gợi ý</div>
+        <div class="stat-label">Đa chiến lược</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">👑</div>
+        <div class="stat-value">Premium</div>
+        <div class="stat-label">Không quảng cáo</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

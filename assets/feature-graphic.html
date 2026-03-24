@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 1024px;
+    height: 500px;
+    overflow: hidden;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .container {
+    width: 1024px;
+    height: 500px;
+    background: linear-gradient(135deg, #111a24 0%, #1a2a3a 50%, #0d1520 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Decorative circles */
+  .circle {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.08;
+  }
+  .circle-1 { width: 400px; height: 400px; background: #e8722a; top: -100px; right: -80px; }
+  .circle-2 { width: 300px; height: 300px; background: #4a8cc8; bottom: -80px; left: -60px; }
+  .circle-3 { width: 200px; height: 200px; background: #f5c842; top: 50%; left: 15%; }
+
+  .content {
+    text-align: center;
+    z-index: 10;
+    padding: 40px;
+  }
+
+  .app-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #e8722a, #d0621f);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    font-size: 40px;
+    box-shadow: 0 8px 32px rgba(232, 114, 42, 0.3);
+  }
+
+  .title {
+    font-size: 52px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -1px;
+    margin-bottom: 8px;
+  }
+
+  .title span {
+    color: #e8722a;
+  }
+
+  .subtitle {
+    font-size: 20px;
+    color: #8899aa;
+    margin-bottom: 32px;
+    letter-spacing: 0.5px;
+  }
+
+  .features {
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+  }
+
+  .feature {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 24px;
+    padding: 10px 20px;
+  }
+
+  .feature-icon {
+    font-size: 18px;
+  }
+
+  .feature-text {
+    font-size: 15px;
+    font-weight: 700;
+    color: #d4dce6;
+  }
+
+  .games-row {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-bottom: 28px;
+  }
+
+  .game-badge {
+    background: rgba(232, 114, 42, 0.15);
+    border: 1px solid rgba(232, 114, 42, 0.3);
+    border-radius: 12px;
+    padding: 6px 14px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #e8722a;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="circle circle-1"></div>
+    <div class="circle circle-2"></div>
+    <div class="circle circle-3"></div>
+
+    <div class="content">
+      <div class="app-icon">🎯</div>
+      <div class="title">VIET<span>LOTT</span></div>
+      <div class="subtitle">Kết quả & Thống kê Xổ số</div>
+
+      <div class="games-row">
+        <div class="game-badge">6/45</div>
+        <div class="game-badge">6/55</div>
+        <div class="game-badge">5/35</div>
+        <div class="game-badge">Max 3D</div>
+        <div class="game-badge">3D Pro</div>
+      </div>
+
+      <div class="features">
+        <div class="feature">
+          <span class="feature-icon">📊</span>
+          <span class="feature-text">Thống kê</span>
+        </div>
+        <div class="feature">
+          <span class="feature-icon">🤖</span>
+          <span class="feature-text">Gợi ý AI</span>
+        </div>
+        <div class="feature">
+          <span class="feature-icon">⚡</span>
+          <span class="feature-text">5 trò chơi</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
