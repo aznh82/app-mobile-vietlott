@@ -3,16 +3,25 @@ import { View, Text, StyleSheet, Animated } from 'react-native';
 import { colors } from '../theme';
 
 const DAY_NAMES = ['Chủ nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7'];
-// Vietlott 6/45: quay thưởng lúc 18:00 các ngày Thứ 2 (1), Thứ 4 (3), Thứ 6 (5)
-const DRAW_DAYS = [1, 3, 5];
 const DRAW_HOUR = 18;
 
-function getNextDrawTime(): Date {
+// Draw day mappings: day label → JS Date.getDay() value
+const DRAW_DAY_MAP: Record<string, number> = {
+  'T2': 1, 'T3': 2, 'T4': 3, 'T5': 4, 'T6': 5, 'T7': 6, 'CN': 0,
+};
+
+function parseDrawDays(drawDaysStr: string): number[] {
+  return drawDaysStr.split(',').map(s => s.trim())
+    .map(label => DRAW_DAY_MAP[label])
+    .filter(d => d !== undefined);
+}
+
+function getNextDrawTime(drawDays: number[]): Date {
   const now = new Date();
   for (let i = 0; i < 7; i++) {
     const candidate = new Date(now);
     candidate.setDate(now.getDate() + i);
-    if (DRAW_DAYS.includes(candidate.getDay())) {
+    if (drawDays.includes(candidate.getDay())) {
       if (i === 0 && now.getHours() >= DRAW_HOUR) continue;
       candidate.setHours(DRAW_HOUR, 0, 0, 0);
       return candidate;
@@ -46,6 +55,7 @@ interface LatestResultProps {
   specialNumber?: string;
   jackpot: string | null;
   jackpotWinners: string | null;
+  drawDaysStr?: string; // e.g. "T4, T6, CN" — defaults to Mega 6/45 schedule
 }
 
 export default function LatestResult({
@@ -55,7 +65,9 @@ export default function LatestResult({
   specialNumber,
   jackpot,
   jackpotWinners,
+  drawDaysStr = 'T4, T6, CN',
 }: LatestResultProps) {
+  const drawDays = parseDrawDays(drawDaysStr);
   // Blinking animation for winner text
   const blinkAnim = useRef(new Animated.Value(1)).current;
   useEffect(() => {
@@ -75,7 +87,7 @@ export default function LatestResult({
   }, [jackpotWinners]);
 
   // Cache nextDrawTime to avoid recalculating 7 Date objects every second
-  const cachedTarget = useRef(getNextDrawTime());
+  const cachedTarget = useRef(getNextDrawTime(drawDays));
   const [nextDrawDate, setNextDrawDate] = useState(formatDatePart(cachedTarget.current));
   const [countdown, setCountdown] = useState(formatCountdown(cachedTarget.current));
 
@@ -84,7 +96,7 @@ export default function LatestResult({
       const now = new Date();
       // Only recalculate nextDrawTime when countdown reaches 0
       if (now.getTime() >= cachedTarget.current.getTime()) {
-        cachedTarget.current = getNextDrawTime();
+        cachedTarget.current = getNextDrawTime(drawDays);
         setNextDrawDate(formatDatePart(cachedTarget.current));
       }
       setCountdown(formatCountdown(cachedTarget.current));

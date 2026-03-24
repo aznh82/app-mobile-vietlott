@@ -190,6 +190,7 @@ export default function GameDetailScreen() {
         }
         jackpot={null}
         jackpotWinners={null}
+        drawDaysStr={activeConfig.drawDays}
       />
     );
   };
